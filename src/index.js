@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -131,41 +131,78 @@ function ToDoHeader () {
 //   }
 // }
 
-class ToDoApp extends React.Component {
-  constructor (props) {
-    super(props);
-    this.addItem = this.addItem.bind(this);
-    this.removeItem=this.removeItem.bind(this);
-    this.doneItem=this.doneItem.bind(this);
-    this.state = {todoList: todoList};
-  }
-  addItem(todoItem){
-    todoList.unshift({
-      index: todoList.length +1,
+const ToDoApp = (props) => {
+  const [todoList, setTodoList] = useState(props.todoItems);
+
+  let addItem = (todoItem) =>{
+    props.todoItems.unshift({
+      index: props.todoItems.length +1,
       value: todoItem.newValue,
       done: false
     })
-    this.setState({todoList:todoList});
+    setTodoList(todoList => {
+      return {...todoList, ...todoList};
+    });
   }
-  removeItem(itemIndex) {
-    todoList.splice(itemIndex, 1);
-    this.setState({todoList: todoList});
+  let removeItem = (itemIndex) => {
+    props.todoItems.splice(itemIndex, 1);
+    setTodoList(todoList=> {
+      return {...todoList, ...todoList};
+    });
   }
-  doneItem(itemIndex) {
-    var item = todoList[itemIndex];
-    todoList.splice(itemIndex, 1);
+  let doneItem = (itemIndex) => {
+    var item = props.todoItems[itemIndex];
+    props.todoItems.splice(itemIndex, 1);
     item.done = !item.done;
-    item.done ? todoList.push(item) : todoList.unshift(item);
-    this.setState({todoList:todoList});
+    item.done ? props.todoItems.push(item) : props.todoItems.unshift(item);
+    setTodoList(todoList=> {
+      return {...todoList, ...todoList};
+    });
   }
-  render() {
-    return (
-      <div id="main">
-    <ToDoHeader/>
-   <ToDoList items={this.props.todoItems} removeItem={this.removeItem} doneItem={this.doneItem} />
-   <ToDoForm addItem={this.addItem} />
+  return (
+    <div id="main">
+      <ToDoHeader/>
+      <ToDoList items={props.todoItems} removeItem={removeItem} doneItem={doneItem} />
+      <ToDoForm addItem={addItem} />
     </div>
-    );
-  }
+  );
 }
+
+// class ToDoApp extends React.Component {
+//   constructor (props) {
+//     super(props);
+//     this.addItem = this.addItem.bind(this);
+//     this.removeItem=this.removeItem.bind(this);
+//     this.doneItem=this.doneItem.bind(this);
+//     this.state = {todoList: todoList};
+//   }
+//   addItem(todoItem){
+//     todoList.unshift({
+//       index: todoList.length +1,
+//       value: todoItem.newValue,
+//       done: false
+//     })
+//     this.setState({todoList:todoList});
+//   }
+//   removeItem(itemIndex) {
+//     todoList.splice(itemIndex, 1);
+//     this.setState({todoList: todoList});
+//   }
+//   doneItem(itemIndex) {
+//     var item = todoList[itemIndex];
+//     todoList.splice(itemIndex, 1);
+//     item.done = !item.done;
+//     item.done ? todoList.push(item) : todoList.unshift(item);
+//     this.setState({todoList:todoList});
+//   }
+//   render() {
+//     return (
+//       <div id="main">
+//     <ToDoHeader/>
+//    <ToDoList items={this.props.todoItems} removeItem={this.removeItem} doneItem={this.doneItem} />
+//    <ToDoForm addItem={this.addItem} />
+//     </div>
+//     );
+//   }
+// }
 ReactDOM.render(<ToDoApp todoItems={todoList} />, document.getElementById('todo-app'));
