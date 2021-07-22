@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -8,28 +8,49 @@ const todoList = [
   {index: 3, value: 'Task 3', done: true}
 ];
 
-class ToDoForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-  onSubmit(event) {
+const ToDoForm = (props) => {
+  const form = useRef();
+  const itemName = useRef();
+
+  let addItem = (event) => {
     event.preventDefault();
-    var newValue = this.refs.itemName.value;
+    var newValue = itemName.current.value;
     if(newValue){
-      this.props.addItem({newValue});
+      props.addItem({newValue});
     }
-    this.refs.form.reset();
+    form.current.reset();
   }
-  render() {
-    return (
-      <form ref="form" className="form-inline" onSubmit={this.onSubmit}> 
-        <input ref="itemName" type="text" className="form-control" placeholder="add new task"></input>
-        <button type="submit" className="btn btn-default">Add</button>
-      </form>
-      )
-  }
+  
+  return (
+    <form ref={form} className="form-inline" onSubmit={addItem}> 
+      <input ref={itemName} type="text" className="form-control" placeholder="add new task"></input>
+      <button type="submit" className="btn btn-default">Add</button>
+    </form>
+  )
 }
+
+// class ToDoForm extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.onSubmit = this.onSubmit.bind(this);
+//   }
+//   onSubmit(event) {
+//     event.preventDefault();
+//     var newValue = this.refs.itemName.value;
+//     if(newValue){
+//       this.props.addItem({newValue});
+//     }
+//     this.refs.form.reset();
+//   }
+//   render() {
+//     return (
+//       <form ref="form" className="form-inline" onSubmit={this.onSubmit}> 
+//         <input ref="itemName" type="text" className="form-control" placeholder="add new task"></input>
+//         <button type="submit" className="btn btn-default">Add</button>
+//       </form>
+//       )
+//   }
+// }
 
 const ToDoItem = (props) => {
   var todoClass = props.item.done ? "done" : "undone";
