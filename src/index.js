@@ -74,11 +74,16 @@ class ToDoList extends React.Component {
     );  
   }
 }
-class ToDoHeader extends React.Component {
-  render() {
-    return (<h1>To do List</h1>);
-  }
+
+function ToDoHeader () {
+    return (<h1>To Do List</h1>);
 }
+
+// class ToDoHeader extends React.Component {
+//   render() {
+//     return (<h1>To do List</h1>);
+//   }
+// }
 
 class ToDoApp extends React.Component {
   constructor (props) {
