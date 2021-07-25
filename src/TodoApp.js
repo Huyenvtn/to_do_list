@@ -2,20 +2,63 @@ import ToDoHeader from './ToDoHeader';
 import ToDoForm from './TodoForm';
 import ToDoList from './TodoList';
 import React, { useState} from 'react';
+import api from './api'
 
 const ToDoApp = (props) => {
-    const [todoList, setTodoList] = useState(props.todoItems);
-  
-    let addItem = (todoItem) =>{
+
+    const [todoList, setTodoList] = useState('');
+    api.getLogin().then(function (response) {
+    api.getAll(response.data.token).then(function (response) {
+      console.log(response.data);
+      const newList = response.data;
+      setTodoList(newList);
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });})
+    // let addItem = (todoItem) =>{
+    //   const newList = [...todoList];
+    //   newList.unshift({
+    //     index: todoList.length +1,
+    //     value: todoItem.newValue,
+    //     done: false
+    //   })
+    //   setTodoList(newList);
+    // }
+    let addItem = async (todoItem) =>{
+        api.postTask();
+        api.getLogin().then(function (response) {
+     
+       /// console.log(response.data.token);
+        //let token = ;
+        api.getAll(response.data.token).then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      });
+     // console.log(token);
+     // api.getAll(token);
+      // axios.get(`https://jsonplaceholder.typicode.com/users`)
+      // .then(res => {
+        
+      //   console.log(res);
+      // })
+      
       const newList = [...todoList];
+
+      console.log(newList);
       newList.unshift({
-        index: todoList.length +1,
+        //index: todoList.length +1,
         value: todoItem.newValue,
         done: false
       })
       setTodoList(newList);
     }
     let removeItem = (itemIndex) => {
+
       const newList = [...todoList];
       newList.splice(itemIndex, 1);
       setTodoList(newList);

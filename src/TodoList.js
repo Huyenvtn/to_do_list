@@ -1,7 +1,8 @@
 
 import ToDoItem from './ToDoItem';
 
-const ToDoList = (props) => {
+const ToDoList = (props) => { //prop là 
+
     var tasks = props.items.map((item, index)=> {
       return (
         <ToDoItem key={index} index={index} item={item} removeItem={props.removeItem} doneItem={props.doneItem}/>
@@ -12,6 +13,15 @@ const ToDoList = (props) => {
     );
   }
   export default ToDoList;
+
+
+
+
+
+
+
+
+
 
   // class ToDoList extends React.Component {
   //   render() {
