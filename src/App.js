@@ -7,10 +7,11 @@ const App = () => {
         "email": "m3uh.nurali43@gmail.com",
         "password": "12345678"
     };
-    api.callApi('post', '/user/login', '', data).then(function (response) {
-        localStorage.setItem('token', response.data.token);
-    })
- 
+    if (!localStorage.getItem('token')){
+        api.callApi('post', '/user/login', '', data).then(function (response) {
+            localStorage.setItem('token', response.data.token);
+        })
+    }
     return (
         <ToDoApp />
     );
