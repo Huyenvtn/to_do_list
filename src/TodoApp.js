@@ -4,9 +4,9 @@ import ToDoList from './TodoList';
 import React, { useState, useEffect} from 'react';
 import api from './api';
 
-  const ToDoApp = (props) => {
+  const ToDoApp = () => {
     const [todoList, setTodoList] = useState([]);
-    const token = props.token;
+    const token = localStorage.getItem('token');
 
     const getData = () => {
       api.callApi('get', '/task', token, '').then(function (response) {
