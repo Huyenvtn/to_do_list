@@ -6,10 +6,9 @@ import api from './api';
 
   const ToDoApp = () => {
     const [todoList, setTodoList] = useState([]);
-    const token = localStorage.getItem('token');
-
+  
     const getData = () => {
-      api.callApi('get', '/task', token, '').then(function (response) {
+      api.callApi('get', '/task', '').then(function (response) {
         const newList = [];
         response.data.data.map((item)=> {
           if (item.completed == true){
@@ -25,7 +24,7 @@ import api from './api';
   
     let addItem = (todoItem) =>{
       let data = { description: todoItem.newValue}
-      api.callApi('post', '/task', token, data).then(function (response) {
+      api.callApi('post', '/task', data).then(function (response) {
         const newList = [...todoList];
         newList.unshift(response.data.data)
         setTodoList(newList);
@@ -34,7 +33,7 @@ import api from './api';
 
     let removeItem = (itemId, index) => {
       var url = '/task/' + itemId; 
-      api.callApi('delete', url, token, '').then(function (response) {
+      api.callApi('delete', url, '').then(function (response) {
         const newList = [...todoList];
         newList.splice(index, 1);
         setTodoList(newList);
@@ -47,7 +46,7 @@ import api from './api';
       if(completed == true){
         data = { "completed": false };
       } 
-      api.callApi('put', url, token, data).then(function (response) {
+      api.callApi('put', url, data).then(function (response) {
         const newList = [...todoList];
         var item = response.data.data;
         newList.splice(index, 1);

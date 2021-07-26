@@ -1,14 +1,13 @@
 import axios from 'axios';
 
 export default {
-    callApi: (method, url, token, data) =>
+    callApi: (method, url, data) =>
     {
-        var author = 'Bearer ' + token
         var config = {
             method: method,
             url: 'https://api-nodejs-todolist.herokuapp.com' + url,
             headers: { 
-                'Authorization': author, 
+                'Authorization': 'Bearer ' + localStorage.getItem('token'), 
                 'Content-Type': 'application/json'
             },
             data : data

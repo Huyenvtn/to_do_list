@@ -1,5 +1,5 @@
 import ToDoApp from './TodoApp';
-import React, { useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import api from './api';
 
 const App = () => {
@@ -7,11 +7,15 @@ const App = () => {
         "email": "m3uh.nurali43@gmail.com",
         "password": "12345678"
     };
-    if (!localStorage.getItem('token')){
-        api.callApi('post', '/user/login', '', data).then(function (response) {
-            localStorage.setItem('token', response.data.token);
+    let token = localStorage.getItem('token');
+    const getToken = () => {
+        api.callApi('post', '/user/login', data).then(function (response) {
+            localStorage.setItem('token',response.data.token);   
         })
-    }
+    };
+    useEffect(() => getToken(), []);
+
+    if(!token) return null;
     return (
         <ToDoApp />
     );
