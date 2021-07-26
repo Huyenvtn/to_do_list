@@ -9,9 +9,11 @@ const App = () => {
     };
     let token = localStorage.getItem('token');
     const getToken = () => {
-        api.callApi('post', '/user/login', data).then(function (response) {
-            localStorage.setItem('token',response.data.token);   
-        })
+        if (token == null){
+            api.callApi('post', '/user/login', data).then(function (response) {
+                localStorage.setItem('token',response.data.token);   
+            })
+        }
     };
     useEffect(() => getToken(), []);
 
