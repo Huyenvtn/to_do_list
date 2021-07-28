@@ -1,5 +1,12 @@
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import configureStore from './store/configureStore';
+import { connect, Provider } from 'react-redux';
 
-ReactDOM.render(<App/>, document.getElementById('todo-app'));
+const store = configureStore();
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>, document.getElementById('todo-app'));
