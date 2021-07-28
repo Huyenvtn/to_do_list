@@ -1,9 +1,12 @@
 import ToDoItem from './ToDoItem';
+import { useSelector } from 'react-redux';
+import React from 'react';
 
-const ToDoList = (props) => {
-  var tasks = props.items.map((item, index)=> {
+const ToDoList = () => {
+  const items = useSelector((state)=>state.items)
+  var tasks = items.map((item, index)=> {
     return (
-      <ToDoItem key={index} index={index} item={item} removeItem={props.removeItem} doneItem={props.doneItem}/>
+      <ToDoItem key={index} index={index} item={item}/>
     );
   });
   return (
